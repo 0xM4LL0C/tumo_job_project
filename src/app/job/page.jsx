@@ -15,7 +15,7 @@ function handleCardClick(job) {
   const job_info = document.getElementById("job_info");
   if (!job_info) return;
 
-  const element = <JobInfo {...job} />;
+  const element = <JobInfo job={job} />;
 
   if (!job_info._reactRoot) {
     job_info._reactRoot = createRoot(job_info);
