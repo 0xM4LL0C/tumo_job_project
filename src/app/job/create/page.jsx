@@ -23,6 +23,8 @@ import { Badge } from "@/components/ui/badge";
 import { X } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const Editor = dynamic(
     () => import("@tinymce/tinymce-react").then((mod) => mod.Editor),
@@ -38,6 +40,7 @@ export default function Create() {
     const [start_date, setStartDate] = useState(null);
     const [end_date, setEndDate] = useState(null);
 
+    const router = useRouter();
     const NEXT_PUBLIC_TINYMCE_API_KEY = process.env.NEXT_PUBLIC_TINYMCE_API_KEY;
 
     // Add this function to handle adding skills
@@ -50,6 +53,11 @@ export default function Create() {
 
     const handleRemoveSkill = (skillToRemove) => {
         setSkills(skills.filter((skill) => skill !== skillToRemove));
+    };
+
+    const handleSubmit = () => {
+        toast("Created");
+        router.push("/job");
     };
 
     return (
@@ -67,7 +75,10 @@ export default function Create() {
                         <Button className="py-[12px] px-[20px] rounded-[8px] bg-purple-600 hover:bg-purple-700">
                             Create Draft
                         </Button>
-                        <Button className="py-[12px] px-[20px] rounded-[8px] bg-indigo-600 hover:bg-indigo-700">
+                        <Button
+                            className="py-[12px] px-[20px] rounded-[8px] bg-indigo-600 hover:bg-indigo-700"
+                            onClick={handleSubmit}
+                        >
                             Post Job
                         </Button>
                     </div>
@@ -309,7 +320,10 @@ export default function Create() {
                     <Button className="py-[12px] px-[20px] rounded-[8px] bg-purple-600 hover:bg-purple-700">
                         Create Draft
                     </Button>
-                    <Button className="py-[12px] px-[20px] rounded-[8px] bg-indigo-600 hover:bg-indigo-700">
+                    <Button
+                        className="py-[12px] px-[20px] rounded-[8px] bg-indigo-600 hover:bg-indigo-700"
+                        onClick={handleSubmit}
+                    >
                         Post Job
                     </Button>
                 </div>
