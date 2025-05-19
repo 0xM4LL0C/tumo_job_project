@@ -28,9 +28,8 @@ const Editor = dynamic(
     () => import("@tinymce/tinymce-react").then((mod) => mod.Editor),
     {
         ssr: false,
-    }
+    },
 );
-
 
 export default function Create() {
     const [skills, setSkills] = useState([]);
@@ -53,17 +52,24 @@ export default function Create() {
         setSkills(skills.filter((skill) => skill !== skillToRemove));
     };
 
-
     return (
         <div className="flex p-4 flex-col gap-4 justify-center items-center mt-9">
             <Card className="p-8 max-w-3xl w-full">
                 <div className="flex justify-between">
-                    <CardTitle className=" font-bold text-xl">New position</CardTitle>
+                    <CardTitle className=" font-bold text-xl">
+                        New position
+                    </CardTitle>
 
                     <div className="flex justify-between gap-4">
-                        <Button className="py-[12px] px-[20px] rounded-[8px] border border-solid border-black text-black bg-white hover:bg-black hover:text-white">Cancel</Button>
-                        <Button className="py-[12px] px-[20px] rounded-[8px] bg-purple-600 hover:bg-purple-700">Create Draft</Button>
-                        <Button className="py-[12px] px-[20px] rounded-[8px] bg-indigo-600 hover:bg-indigo-700">Post Job</Button>
+                        <Button className="py-[12px] px-[20px] rounded-[8px] border border-solid border-black text-black bg-white hover:bg-black hover:text-white">
+                            Cancel
+                        </Button>
+                        <Button className="py-[12px] px-[20px] rounded-[8px] bg-purple-600 hover:bg-purple-700">
+                            Create Draft
+                        </Button>
+                        <Button className="py-[12px] px-[20px] rounded-[8px] bg-indigo-600 hover:bg-indigo-700">
+                            Post Job
+                        </Button>
                     </div>
                 </div>
             </Card>
@@ -188,7 +194,6 @@ export default function Create() {
                 <div className="flex flex-col gap-2">
                     <p className="text-sm font-bold">Salary Range (AMD)</p>
                     <div className="flex flex-row gap-2">
-
                         <Input
                             className="rounded-xl py-3 px-4 text-base h-12"
                             placeholder="Min"
@@ -222,7 +227,9 @@ export default function Create() {
                                         className="ml-1 ring-offset-background rounded-full outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                                     >
                                         <X className="h-3 w-3" />
-                                        <span className="sr-only">Remove {skill}</span>
+                                        <span className="sr-only">
+                                            Remove {skill}
+                                        </span>
                                     </button>
                                 </Badge>
                             ))}
@@ -238,11 +245,15 @@ export default function Create() {
                                     variant={"outline"}
                                     className={cn(
                                         " justify-start text-left font-normal rounded-xl py-3 px-4 text-base h-12",
-                                        !start_date && "text-muted-foreground"
+                                        !start_date && "text-muted-foreground",
                                     )}
                                 >
                                     <CalendarIcon className="mr-2 h-4 w-4" />
-                                    {start_date ? format(start_date, "PPP") : <span>Pick a date</span>}
+                                    {start_date ? (
+                                        format(start_date, "PPP")
+                                    ) : (
+                                        <span>Pick a date</span>
+                                    )}
                                 </Button>
                             </PopoverTrigger>
                             <PopoverContent className=" p-0" align="start">
@@ -251,7 +262,8 @@ export default function Create() {
                                     selected={start_date}
                                     onSelect={setStartDate}
                                     disabled={(start_date) =>
-                                        start_date < new Date() || start_date > new Date("2025-12-31")
+                                        start_date < new Date() ||
+                                        start_date > new Date("2025-12-31")
                                     }
                                     initialFocus
                                 />
@@ -263,11 +275,15 @@ export default function Create() {
                                     variant={"outline"}
                                     className={cn(
                                         " justify-start text-left font-normal rounded-xl py-3 px-4 text-base h-12",
-                                        !end_date && "text-muted-foreground"
+                                        !end_date && "text-muted-foreground",
                                     )}
                                 >
                                     <CalendarIcon className="mr-2 h-4 w-4" />
-                                    {end_date ? format(end_date, "PPP") : <span>Pick a date</span>}
+                                    {end_date ? (
+                                        format(end_date, "PPP")
+                                    ) : (
+                                        <span>Pick a date</span>
+                                    )}
                                 </Button>
                             </PopoverTrigger>
                             <PopoverContent className=" p-0" align="start">
@@ -276,13 +292,26 @@ export default function Create() {
                                     selected={end_date}
                                     onSelect={setEndDate}
                                     disabled={(end_date) =>
-                                        end_date < new Date() || end_date > new Date("2025-12-31")
+                                        end_date < new Date() ||
+                                        end_date > new Date("2025-12-31")
                                     }
                                     initialFocus
                                 />
                             </PopoverContent>
                         </Popover>
                     </div>
+                </div>
+
+                <div className="flex justify-end gap-4">
+                    <Button className="py-[12px] px-[20px] rounded-[8px] border border-solid border-black text-black bg-white hover:bg-black hover:text-white">
+                        Cancel
+                    </Button>
+                    <Button className="py-[12px] px-[20px] rounded-[8px] bg-purple-600 hover:bg-purple-700">
+                        Create Draft
+                    </Button>
+                    <Button className="py-[12px] px-[20px] rounded-[8px] bg-indigo-600 hover:bg-indigo-700">
+                        Post Job
+                    </Button>
                 </div>
             </Card>
         </div>
