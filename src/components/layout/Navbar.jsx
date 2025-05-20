@@ -8,11 +8,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { usePathname } from "next/navigation";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Navbar() {
     const pathname = usePathname();
-    const router = useRouter();
     return (
         <header className="bg-white shadow-sm px-6 py-4 flex flex-col gap-2">
             <div className="flex items-center justify-between">
@@ -43,11 +42,8 @@ export default function Navbar() {
                         <AvatarFallback>U</AvatarFallback>
                     </Avatar>
                     {pathname !== "/job/create" && (
-                        <Button
-                            onClick={() => router.push("/job/create")}
-                            className="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2 rounded-md font-semibold"
-                        >
-                            Create Job
+                        <Button className="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2 rounded-md font-semibold">
+                            <Link href="/job/create">Create Job</Link>
                         </Button>
                     )}
                 </div>
