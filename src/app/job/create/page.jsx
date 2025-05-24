@@ -378,6 +378,7 @@ export default function Create() {
                                             "border-red-500 border-2",
                                     )}
                                     type="number"
+                                    min="0"
                                     placeholder="Enter min salary"
                                 />
                             )}
@@ -403,6 +404,7 @@ export default function Create() {
                                             "border-red-500 border-2",
                                     )}
                                     type="number"
+                                    min="0"
                                     placeholder="Enter max salary"
                                 />
                             )}
@@ -565,6 +567,8 @@ export default function Create() {
                                 {errors.jobPostDates.start.message}
                             </span>
                         )}
+                        {(errors.jobPostDates?.start ||
+                            errors.jobPostDates?.end) && <br />}
                         {errors.jobPostDates?.end && (
                             <span className="text-red-500 text-sm">
                                 {errors.jobPostDates.end.message}
