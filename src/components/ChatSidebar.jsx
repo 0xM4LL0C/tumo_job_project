@@ -5,6 +5,8 @@ import { MessageSquare, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import ReactMarkdown from 'react-markdown';
+
 
 export default function ChatSidebar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -99,7 +101,7 @@ export default function ChatSidebar() {
                                             : "bg-gray-100"
                                     }`}
                                 >
-                                    {message.content}
+                                    <ReactMarkdown>{message.content}</ReactMarkdown>
                                 </div>
                             </div>
                         ))}
