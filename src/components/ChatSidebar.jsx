@@ -64,7 +64,7 @@ export default function ChatSidebar() {
 
             {/* Sidebar */}
             <div
-                className={`fixed right-0 top-0 h-full w-96 bg-white shadow-lg transform transition-transform duration-300 ease-in-out ${
+                className={`fixed right-0 top-0 h-full z-50 w-96 bg-white shadow-lg transform transition-transform duration-300 ease-in-out ${
                     isOpen ? "translate-x-0" : "translate-x-full"
                 }`}
             >
