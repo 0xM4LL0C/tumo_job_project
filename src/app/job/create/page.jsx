@@ -85,11 +85,29 @@ export default function Create() {
         setValue("skills", updatedSkills);
     };
 
-    const onSubmit = (data) => {
-        console.log("Form data:", data);
-        // Handle form submission
-    };
-
+  
+    const onSubmit = async (data) => {
+        try {
+          const response = await fetch('/api/jobs', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          });
+    
+          if (!response.ok) {
+            throw new Error('Failed to create job');
+          }
+    
+          const result = await response.json();
+          // Redirect to jobs page after successful creation
+          window.location.href = '/job';
+        } catch (error) {
+          console.error('Error creating job:', error);
+          // Handle error (show error message to user)
+        }
+      };
     return (
         <div className="flex p-4 flex-col gap-4 justify-center items-center mt-9">
             <Card className="p-8 max-w-3xl w-full">

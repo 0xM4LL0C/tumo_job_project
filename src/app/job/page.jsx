@@ -17,153 +17,38 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const jobs = [
-  {
-    id: 1,
-    company: "Acme",
-    title: "Senior Backend Developer",
-    type: "Full time",
-    location: "Onsite | Yerevan, Armenia",
-    experience: "5+ years",
-    salary: "1,500,000 - 2,500,000 AMD",
-    deadline: "30 May, 2024",
-    about:
-      "Acme is a product and software development company delivering end-to-end services ...",
-    description: "We are looking for a Senior Backend Developer ...",
-    responsibilities: [
-      "Lead and deliver smart contracts for DeFi Protocols.",
-      "Work with product owners to define key strategies, including front-end and UX testing, to ensure a comprehensive solution.",
-      "Participate in code reviews and contribute compliance with best practices and security standards.",
-      "Mentor and lead other engineers.",
-    ],
-    qualifications: [
-      "Passion for Blockchain technologies.",
-      "Proven experience (5+ years) Backend Developer, with a strong portfolio of deployed smart contracts.",
-      "Familiarity with Ethereum standards (ERC20, ERC4626, etc.) and decentralized application patterns.",
-    ],
-    skills: [
-      "Design Architecture",
-      "API",
-      "Communication",
-      "SOLID",
-      "Golang",
-      "ORM",
-      "Project Management",
-    ],
-    tags: ["Oracle", "Yerevan", "Armenia"],
-    posted: "2h",
-  },
-  {
-    id: 2,
-    company: "Acme",
-    title: "Frontend Developer",
-    type: "Hybrid",
-    location: "Yerevan, Armenia",
-    experience: "3+ years",
-    salary: "1,200,000 - 2,000,000 AMD",
-    deadline: "25 May, 2024",
-    about:
-      "Acme is a product and software development company delivering end-to-end services ...",
-    description: "We are looking for a Frontend Developer ...",
-    responsibilities: [
-      "Develop and maintain user-facing features using React",
-      "Build reusable components and libraries for future use",
-      "Optimize applications for maximum speed and scalability",
-      "Collaborate with backend developers to integrate APIs",
-    ],
-    qualifications: [
-      "Strong experience with React and modern JavaScript",
-      "Understanding of state management solutions",
-      "Experience with responsive design and CSS frameworks",
-    ],
-    skills: [
-      "React",
-      "JavaScript",
-      "TypeScript",
-      "CSS",
-      "HTML",
-      "Git",
-      "REST APIs",
-    ],
-    tags: ["React", "Yerevan", "Armenia"],
-    posted: "5h",
-  },
-  {
-    id: 3,
-    company: "Acme",
-    title: "Senior Blockchain Developer",
-    type: "Hybrid",
-    location: "Remote, Armenia",
-    experience: "4+ years",
-    salary: "2,000,000 - 3,000,000 AMD",
-    deadline: "28 May, 2024",
-    about:
-      "Acme is a product and software development company delivering end-to-end services ...",
-    description: "We are looking for a Senior Blockchain Developer ...",
-    responsibilities: [
-      "Design and implement smart contracts",
-      "Develop and maintain blockchain applications",
-      "Work on DeFi protocols and solutions",
-      "Lead technical discussions and architecture decisions",
-    ],
-    qualifications: [
-      "Strong experience with blockchain development",
-      "Knowledge of Solidity and smart contract development",
-      "Understanding of DeFi protocols and mechanisms",
-    ],
-    skills: [
-      "Blockchain",
-      "Solidity",
-      "Smart Contracts",
-      "DeFi",
-      "Ethereum",
-      "Web3",
-      "Cryptography",
-    ],
-    tags: ["Blockchain", "Remote", "Armenia"],
-    posted: "12h",
-  },
-  {
-    id: 4,
-    company: "Acme",
-    title: "Senior Backend Developer",
-    type: "Onsite",
-    location: "Yerevan, Armenia",
-    experience: "5+ years",
-    salary: "1,800,000 - 2,800,000 AMD",
-    deadline: "1 June, 2024",
-    about:
-      "Acme is a product and software development company delivering end-to-end services ...",
-    description: "We are looking for a Senior Backend Developer ...",
-    responsibilities: [
-      "Design and implement scalable backend services",
-      "Optimize database performance and queries",
-      "Implement security best practices",
-      "Mentor junior developers",
-    ],
-    qualifications: [
-      "Strong experience with backend technologies",
-      "Knowledge of database design and optimization",
-      "Experience with microservices architecture",
-    ],
-    skills: [
-      "Backend Development",
-      "Database Design",
-      "API Development",
-      "System Architecture",
-      "Performance Optimization",
-      "Security",
-      "Team Leadership",
-    ],
-    tags: ["Oracle", "Yerevan", "Armenia"],
-    posted: "20h",
-  },
-];
 
 export default function Job() {
-  const [selectedJob, setSelectedJob] = useState(jobs[0]);
+
+  const [selectedJob, setSelectedJob] = useState([]);
+  const [jobs, setJobs] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const response = await fetch('/api/jobs');
+        if (!response.ok) {
+          throw new Error('Failed to fetch jobs');
+        }
+        const data = await response.json();
+        setJobs(data);
+        setSelectedJob(data[0]); // Select first job by default
+      } catch (error) {
+        console.error('Error fetching jobs:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchJobs();
+  }, []);
+
+  if(loading) {
+    return <div>Loading...</div>;
+  }
   return (
     <div className="px-6 py-4">
       <div className="mb-4 p-2">
@@ -236,7 +121,7 @@ export default function Job() {
                 onClick={() => setSelectedJob(job)}
               >
                 <CardHeader>
-                  <CardTitle>{job.company}</CardTitle>
+                  <CardTitle>{job.position}</CardTitle>
                   <CardDescription>Card Description</CardDescription>
                 </CardHeader>
                 <CardContent className="p-4 flex flex-col gap-1"></CardContent>
@@ -250,10 +135,10 @@ export default function Job() {
               <div>
                 <CardTitle>{selectedJob.company}</CardTitle>
                 <CardTitle className="text-xl mt-2">
-                  {selectedJob.title}
+                  {selectedJob.position}
                 </CardTitle>
                 <div className="text-sm text-muted-foreground mt-1">
-                  {selectedJob.type} | {selectedJob.location}
+                  {selectedJob.jobType} | {selectedJob.location}
                 </div>
               </div>
               <Button>Apply Now</Button>
@@ -264,19 +149,19 @@ export default function Job() {
                   <div className="text-xs text-muted-foreground">
                     Experience Level
                   </div>
-                  <div className="font-medium">{selectedJob.experience}</div>
+                  <div className="font-medium">{selectedJob.experienceLevel}</div>
                 </div>
                 <div>
                   <div className="text-xs text-muted-foreground">
                     Salary Range (AMD)
                   </div>
-                  <div className="font-medium">{selectedJob.salary}</div>
+                  <div className="font-medium">{selectedJob.salaryMin} - {selectedJob.salaryMax}</div>
                 </div>
                 <div>
                   <div className="text-xs text-muted-foreground">
                     Job Deadline
                   </div>
-                  <div className="font-medium">{selectedJob.deadline}</div>
+                  <div className="font-medium">{selectedJob.endDate}</div>
                 </div>
               </div>
               <div className="mb-4">
@@ -287,25 +172,24 @@ export default function Job() {
               </div>
               <div className="mb-4">
                 <div className="font-semibold mb-1">Job Description</div>
-                <div className="text-sm text-muted-foreground">
-                  {selectedJob.description}
-                </div>
+                <div 
+                  className="text-sm text-muted-foreground"
+                  dangerouslySetInnerHTML={{ __html: selectedJob.jobDescription }}
+                />
               </div>
               <div className="mb-4">
                 <div className="font-semibold mb-1">Responsibilities</div>
-                <ul className="list-disc pl-5 text-sm text-muted-foreground">
-                  {selectedJob.responsibilities.map((item, i) => (
-                    <li key={i}>{item}</li>
-                  ))}
-                </ul>
+                <div 
+                  className="text-sm text-muted-foreground"
+                  dangerouslySetInnerHTML={{ __html: selectedJob.responsibilities }}
+                />
               </div>
               <div className="mb-4">
                 <div className="font-semibold mb-1">Qualifications</div>
-                <ul className="list-disc pl-5 text-sm text-muted-foreground">
-                  {selectedJob.qualifications.map((item, i) => (
-                    <li key={i}>{item}</li>
-                  ))}
-                </ul>
+                <div 
+                  className="text-sm text-muted-foreground"
+                  dangerouslySetInnerHTML={{ __html: selectedJob.qualifications }}
+                />
               </div>
               <div>
                 <div className="font-semibold mb-1">Skills</div>
